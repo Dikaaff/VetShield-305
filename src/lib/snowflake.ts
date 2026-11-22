@@ -58,6 +58,10 @@ export function snowflakeStatus(): {
 }
 
 function baseUrl(): string {
+  // SNOWFLAKE_HOST exists so the SQL API adapter can be exercised against a
+  // local emulator in tests; production leaves it unset.
+  const override = process.env.SNOWFLAKE_HOST;
+  if (override) return override.replace(/\/$/, "");
   if (!env.account) throw new SnowflakeError("Snowflake account missing", "not_configured");
   return `https://${env.account}.snowflakecomputing.com`;
 }
@@ -101,7 +105,9 @@ function toRows<T>(body: SqlApiResponse): T[] {
   return rows.map((row) => {
     const record: Record<string, unknown> = {};
     columns.forEach((name, index) => {
-      record[name] = row[index];
+      // Snowflake returns unaliased column names in upper case; the store and
+      // dashboard use lower_snake_case fields.
+      record[name.toLowerCase()] = row[index];
     });
     return record as T;
   });

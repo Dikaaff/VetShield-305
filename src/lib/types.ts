@@ -25,6 +25,7 @@ export interface Citation {
   doc_id: string;
   title: string;
   claim: string;
+  url?: string;
 }
 
 export interface SafetyMeta {

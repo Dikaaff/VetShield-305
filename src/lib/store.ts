@@ -1,4 +1,4 @@
-import { mkdir, appendFile, readFile } from "node:fs/promises";
+import { mkdir, appendFile, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { isSnowflakeConfigured, runSql } from "./snowflake";
 import type {
@@ -83,6 +83,41 @@ async function appendJsonl(file: string, row: unknown): Promise<void> {
   }
 }
 
+const RETENTION_DAYS = Math.max(1, Number(process.env.RETENTION_DAYS ?? 7));
+let lastPruneAt = 0;
+let writeQueue: Promise<void> = Promise.resolve();
+
+/** Serialize local file writes so pruning cannot race with appends. */
+function serialize(task: () => Promise<void>): Promise<void> {
+  const next = writeQueue.then(task, task);
+  writeQueue = next.catch(() => undefined);
+  return next;
+}
+
+/**
+ * Enforce the 7-day excerpt retention for the local adapter, which has no
+ * scheduled task like Snowflake. Runs at most once an hour, best effort.
+ */
+async function pruneExpiredAnalyses(): Promise<void> {
+  const cutoff = Date.now() - RETENTION_DAYS * DAY_MS;
+  memory.analyses = memory.analyses.filter(
+    (row) => new Date(row.created_at).getTime() >= cutoff,
+  );
+  if (!memory.fsAvailable || Date.now() - lastPruneAt < 3_600_000) return;
+  lastPruneAt = Date.now();
+  try {
+    const rows = await readJsonl<StoredAnalysis>("analyses.jsonl");
+    const kept = rows.filter((row) => new Date(row.created_at).getTime() >= cutoff);
+    if (kept.length === rows.length) return;
+    const dir = await dataDir();
+    const body = kept.map((row) => JSON.stringify(row)).join("\n");
+    await writeFile(join(dir, "analyses.jsonl"), body.length > 0 ? `${body}\n` : "", "utf8");
+  } catch {
+    // Retention is best effort on read-only or busy filesystems; the window
+    // filters in aggregate() still prevent old rows from appearing in stats.
+  }
+}
+
 async function readJsonl<T>(file: string): Promise<T[]> {
   if (!memory.fsAvailable) return [];
   try {
@@ -137,15 +172,27 @@ export function aggregate(input: {
   windowDays: number;
 }): DashboardSummary {
   const cutoff = memoryDate(input.windowDays);
-  const analyses = input.analyses.filter(
-    (row) => new Date(row.created_at).getTime() >= cutoff,
-  );
-  const practice = input.practice.filter(
-    (row) => new Date(row.created_at).getTime() >= cutoff,
-  );
-  const prepost = input.prepost.filter(
-    (row) => new Date(row.created_at).getTime() >= cutoff,
-  );
+  // Snowflake's SQL API can return numbers and booleans as strings; normalize
+  // so aggregation and percentile math behave the same on both adapters.
+  const analyses: StoredAnalysis[] = input.analyses
+    .map((row) => ({
+      ...row,
+      risk_score: Number(row.risk_score),
+      confidence: Number(row.confidence),
+      latency_ms: Number(row.latency_ms),
+      refuse: row.refuse === true || String(row.refuse) === "true",
+      degraded: row.degraded === true || String(row.degraded) === "true",
+    }))
+    .filter((row) => new Date(row.created_at).getTime() >= cutoff);
+  const practice: StoredPractice[] = input.practice
+    .map((row) => ({
+      ...row,
+      correct: row.correct === true || String(row.correct) === "true",
+    }))
+    .filter((row) => new Date(row.created_at).getTime() >= cutoff);
+  const prepost: StoredPrePost[] = input.prepost
+    .map((row) => ({ ...row, score_pct: Number(row.score_pct) }))
+    .filter((row) => new Date(row.created_at).getTime() >= cutoff);
 
   const labelCounts = new Map<RiskLabel, number>(ALL_LABELS.map((label) => [label, 0]));
   const categoryCounts = new Map<ScamCategory, number>();
@@ -222,7 +269,10 @@ class LocalStore implements Store {
 
   async recordAnalysis(row: StoredAnalysis): Promise<void> {
     memory.analyses.push(row);
-    await appendJsonl("analyses.jsonl", row);
+    await serialize(async () => {
+      await pruneExpiredAnalyses();
+      await appendJsonl("analyses.jsonl", row);
+    });
   }
 
   async recordPractice(row: StoredPractice): Promise<void> {
@@ -236,17 +286,21 @@ class LocalStore implements Store {
   }
 
   async summary(windowDays: number): Promise<DashboardSummary> {
+    await serialize(pruneExpiredAnalyses);
     const [analyses, practice, prepost] = await Promise.all([
       readJsonl<StoredAnalysis>("analyses.jsonl"),
       readJsonl<StoredPractice>("practice.jsonl"),
       readJsonl<StoredPrePost>("prepost.jsonl"),
     ]);
 
+    // With a writable filesystem the JSONL files are the source of truth;
+    // memory is only the fallback when writes are impossible (serverless).
+    // Concatenating both would double-count every row.
     return aggregate({
       source: memory.fsAvailable ? "local" : "memory",
-      analyses: [...analyses, ...memory.analyses],
-      practice: [...practice, ...memory.practice],
-      prepost: [...prepost, ...memory.prepost],
+      analyses: memory.fsAvailable ? analyses : memory.analyses,
+      practice: memory.fsAvailable ? practice : memory.practice,
+      prepost: memory.fsAvailable ? prepost : memory.prepost,
       windowDays,
     });
   }

@@ -9,6 +9,9 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "data:scenarios": "node scripts/generate-scenarios.mjs",
+    "data:knowledge": "node scripts/verify-knowledge.mjs && node scripts/build-knowledge.mjs",
+    "verify:knowledge": "node scripts/verify-knowledge.mjs",
+    "mock:snowflake": "node scripts/mock-snowflake.mjs",
     "eval": "node scripts/eval.mjs"
   },
   "dependencies": {

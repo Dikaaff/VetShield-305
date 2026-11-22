@@ -1,0 +1,327 @@
+openapi: 3.1.0
+info:
+  title: VetShield 305 API
+  version: 0.1.0
+  description: |
+    Pemeriksa pesan penipuan yang jujur tentang ketidakpastian. Semua endpoint
+    mengembalikan JSON. Error selalu berbentuk `{ "error": { "code", "message" } }`.
+servers:
+  - url: http://localhost:3000
+    description: Pengembangan lokal
+tags:
+  - name: analyze
+  - name: practice
+  - name: dashboard
+  - name: ops
+
+paths:
+  /api/analyze:
+    post:
+      tags: [analyze]
+      summary: Periksa satu pesan
+      description: |
+        Maksimal 4.000 karakter. Rate limit 30/menit/IP (dapat diatur lewat
+        `ANALYZE_RATE_LIMIT`). Kirim `Idempotency-Key` untuk mengulang permintaan
+        yang sama tanpa menghitung ulang.
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          schema: { type: string, maxLength: 128 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [text]
+              properties:
+                text: { type: string, maxLength: 4000 }
+                channel:
+                  type: string
+                  enum: [sms, email, web, voice_transcript]
+                  default: sms
+                language:
+                  type: string
+                  enum: [id, en, es]
+                  description: Default id; jika kosong, dideteksi dari teks.
+                consentToStore:
+                  type: boolean
+                  default: true
+                  description: false berarti cuplikan tidak disimpan sama sekali.
+      responses:
+        "200":
+          description: Hasil analisis
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AnalysisResult" }
+        "400":
+          description: Input tidak valid
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+        "429":
+          description: Rate limit
+          headers:
+            Retry-After:
+              schema: { type: integer }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+        "500":
+          description: Gangguan internal
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+
+  /api/practice/next:
+    post:
+      tags: [practice]
+      summary: Ambil soal latihan berikutnya
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sessionId]
+              properties:
+                sessionId: { type: string, minLength: 8 }
+                category:
+                  type: string
+                  enum: [bank, benefits, job, delivery, marketplace, romance, tech_support, investment, tax, family_emergency, account_security, prize, other]
+                difficulty:
+                  type: string
+                  enum: [easy, medium, hard]
+      responses:
+        "200":
+          description: Soal
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PracticeQuestion" }
+        "400": { description: Input tidak valid }
+        "503": { description: Korpus tidak tersedia }
+
+  /api/practice/answer:
+    post:
+      tags: [practice]
+      summary: Kirim jawaban latihan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sessionId, scenarioId, choice]
+              properties:
+                sessionId: { type: string, minLength: 8 }
+                scenarioId: { type: string }
+                choice: { type: string, enum: [scam, legit] }
+                reasoning: { type: string, maxLength: 400 }
+      responses:
+        "200":
+          description: Umpan balik
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PracticeFeedback" }
+        "400": { description: Input tidak valid }
+        "404": { description: Skenario tidak dikenal }
+        "503": { description: Latihan tidak tersedia }
+
+  /api/dashboard/summary:
+    get:
+      tags: [dashboard]
+      summary: Ringkasan agregat
+      parameters:
+        - in: query
+          name: window
+          schema: { type: string, enum: [7d, 30d, all], default: 7d }
+      responses:
+        "200":
+          description: Ringkasan; `source` menunjukkan Snowflake, lokal, atau memori
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DashboardSummary" }
+        "503": { description: Analitik tidak tersedia }
+
+  /api/prepost:
+    post:
+      tags: [dashboard]
+      summary: Catat skor tes sebelum/sesudah
+      description: Dipakai instrumen evaluasi 20 responden, bukan formulir publik.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [phase, scorePct]
+              properties:
+                phase: { type: string, enum: [pre, post] }
+                scorePct: { type: number, minimum: 0, maximum: 100 }
+      responses:
+        "201": { description: Tercatat }
+        "400": { description: Input tidak valid }
+        "429": { description: Rate limit }
+
+  /api/health:
+    get:
+      tags: [ops]
+      summary: Status layanan
+      responses:
+        "200":
+          description: Status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  service: { type: string }
+                  version: { type: string }
+                  engine: { type: string }
+                  explanations: { type: string }
+                  snowflake:
+                    type: object
+                    properties:
+                      configured: { type: boolean }
+                      database: { type: string }
+                      schema: { type: string }
+                  time: { type: string, format: date-time }
+
+components:
+  schemas:
+    AnalysisResult:
+      type: object
+      required: [risk_score, label, category, red_flags, plain_explanation, safe_actions, confidence, refuse, citations, model_used, latency_ms, safety_meta]
+      properties:
+        risk_score: { type: integer, minimum: 0, maximum: 100 }
+        label:
+          type: string
+          enum: [scam_likely, suspicious, likely_legitimate, insufficient_info]
+        category:
+          type: string
+          enum: [bank, benefits, job, delivery, marketplace, romance, tech_support, investment, tax, family_emergency, account_security, prize, other]
+        red_flags:
+          type: array
+          items: { type: string }
+          maxItems: 5
+        plain_explanation: { type: string }
+        safe_actions:
+          type: array
+          minItems: 3
+          maxItems: 3
+          items: { type: string }
+        confidence: { type: number, minimum: 0, maximum: 1 }
+        refuse: { type: boolean }
+        citations:
+          type: array
+          items:
+            type: object
+            properties:
+              doc_id: { type: string }
+              title: { type: string }
+              claim: { type: string }
+              url:
+                type: string
+                format: uri
+                description: Sumber asli yang sudah diverifikasi HTTP 200-399.
+        model_used: { type: string }
+        latency_ms: { type: integer }
+        safety_meta:
+          type: object
+          properties:
+            injection_detected: { type: boolean }
+            pii_redacted: { type: boolean }
+            degraded: { type: boolean }
+            limited_analysis: { type: boolean }
+
+    PracticeQuestion:
+      type: object
+      properties:
+        scenarioId: { type: string }
+        text: { type: string }
+        channel: { type: string }
+        language: { type: string }
+        category: { type: string }
+        difficulty: { type: string }
+        attempt: { type: integer }
+
+    PracticeFeedback:
+      type: object
+      properties:
+        scenarioId: { type: string }
+        verdict: { type: string, enum: [correct, partially_correct, incorrect] }
+        correctLabel: { type: string, enum: [scam, legit] }
+        why: { type: string }
+        misconception: { type: string, nullable: true }
+        nextDifficulty: { type: string }
+        nextCategory: { type: string }
+        tip: { type: string }
+        redFlags:
+          type: array
+          items: { type: string }
+
+    DashboardSummary:
+      type: object
+      properties:
+        window: { type: string, enum: [7d, 30d, all] }
+        source: { type: string, enum: [snowflake, local, memory] }
+        totals:
+          type: object
+          properties:
+            analyses: { type: integer }
+            practiceAnswers: { type: integer }
+        labels:
+          type: array
+          items:
+            type: object
+            properties:
+              label: { type: string }
+              count: { type: integer }
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              category: { type: string }
+              count: { type: integer }
+        riskHistogram:
+          type: array
+          items:
+            type: object
+            properties:
+              bucket: { type: string }
+              count: { type: integer }
+              refused: { type: integer }
+        practice:
+          type: array
+          items:
+            type: object
+            properties:
+              category: { type: string }
+              attempts: { type: integer }
+              correct: { type: integer }
+        learning:
+          type: object
+          properties:
+            pre: { type: number }
+            post: { type: number }
+            n: { type: integer }
+            deltaPct: { type: number, nullable: true }
+        reliability:
+          type: object
+          properties:
+            refusalRate: { type: number, nullable: true }
+            degradedRate: { type: number, nullable: true }
+            medianLatencyMs: { type: integer, nullable: true }
+            n: { type: integer }
+        generatedAt: { type: string, format: date-time }
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code: { type: string }
+            message: { type: string }

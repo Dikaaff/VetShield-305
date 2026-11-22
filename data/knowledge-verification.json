@@ -1,0 +1,341 @@
+{
+  "generatedAt": "2026-11-22T10:58:01.562Z",
+  "checked": 40,
+  "okCount": 40,
+  "results": {
+    "KB-FTC-07": {
+      "url": "https://consumer.ftc.gov/articles/how-avoid-scam",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://consumer.ftc.gov/articles/how-avoid-scam",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:00.389Z"
+    },
+    "KB-FTC-08": {
+      "url": "https://consumer.ftc.gov/scams",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://consumer.ftc.gov/scams",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:00.406Z"
+    },
+    "KB-FTC-02": {
+      "url": "https://consumer.ftc.gov/articles/avoiding-and-reporting-gift-card-scams",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://consumer.ftc.gov/articles/avoiding-and-reporting-gift-card-scams",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:00.420Z"
+    },
+    "KB-FTC-01": {
+      "url": "https://consumer.ftc.gov/articles/how-recognize-avoid-phishing-scams",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://consumer.ftc.gov/articles/how-recognize-avoid-phishing-scams",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:00.449Z"
+    },
+    "KB-FTC-03": {
+      "url": "https://consumer.ftc.gov/articles/job-scams",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://consumer.ftc.gov/articles/job-scams",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:00.536Z"
+    },
+    "KB-CISA-01": {
+      "url": "https://www.cisa.gov/secure-our-world/recognize-and-report-phishing",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.cisa.gov/secure-our-world/recognize-and-report-phishing",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:00.655Z"
+    },
+    "KB-CISA-02": {
+      "url": "https://www.cisa.gov/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.cisa.gov/",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:00.670Z"
+    },
+    "KB-FTC-09": {
+      "url": "https://www.ftc.gov/business-guidance",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.ftc.gov/business-guidance",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:01.389Z"
+    },
+    "KB-FTC-05": {
+      "url": "https://consumer.ftc.gov/articles/how-recognize-and-report-spam-text-messages",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://consumer.ftc.gov/articles/how-recognize-and-report-spam-text-messages",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:01.547Z"
+    },
+    "KB-FTC-04": {
+      "url": "https://consumer.ftc.gov/articles/what-know-about-romance-scams",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://consumer.ftc.gov/articles/what-know-about-romance-scams",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:02.069Z"
+    },
+    "KB-FTC-06": {
+      "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:02.072Z"
+    },
+    "KB-SSA-01": {
+      "url": "https://www.ssa.gov/scam/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.ssa.gov/scam/",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:04.255Z"
+    },
+    "KB-CFPB-01": {
+      "url": "https://www.consumerfinance.gov/consumer-tools/fraud/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.consumerfinance.gov/consumer-tools/fraud/",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:10.196Z"
+    },
+    "KB-MEDICARE-01": {
+      "url": "https://www.medicare.gov/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.medicare.gov/",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:19.170Z"
+    },
+    "KB-IDTHEFT-01": {
+      "url": "https://www.identitytheft.gov/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.identitytheft.gov/",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:57:20.209Z"
+    },
+    "KB-USAGOV-02": {
+      "url": "https://www.usa.gov/identity-theft",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.usa.gov/identity-theft",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:57:20.594Z"
+    },
+    "KB-USAGOV-01": {
+      "url": "https://www.usa.gov/scams-and-fraud",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.usa.gov/scams-and-fraud",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:57:21.225Z"
+    },
+    "KB-IRS-01": {
+      "url": "https://www.irs.gov/identity-theft-central",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.irs.gov/identity-theft-central",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:57:21.234Z"
+    },
+    "KB-USPIS-01": {
+      "url": "https://www.uspis.gov/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.uspis.gov/",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:57:21.299Z"
+    },
+    "KB-IC3-01": {
+      "url": "https://www.ic3.gov/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.ic3.gov/",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:57:22.140Z"
+    },
+    "KB-VA-01": {
+      "url": "https://www.va.gov/resources/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.va.gov/resources/",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:57:22.591Z"
+    },
+    "KB-NCSC-01": {
+      "url": "https://www.ncsc.gov.uk/collection/phishing-scams",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.ncsc.gov.uk/collection/phishing-scams",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:25.362Z"
+    },
+    "KB-NCSC-02": {
+      "url": "https://www.ncsc.gov.uk/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.ncsc.gov.uk/",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:25.498Z"
+    },
+    "KB-SCAMWATCH-02": {
+      "url": "https://www.scamwatch.gov.au/about-us",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.scamwatch.gov.au/about-us",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:27.031Z"
+    },
+    "KB-FCA-01": {
+      "url": "https://www.fca.org.uk/consumers/protect-yourself-scams",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.fca.org.uk/consumers/protect-yourself-scams",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:28.624Z"
+    },
+    "KB-CYBER-01": {
+      "url": "https://www.cyber.gov.au/guidance/learn-about-phishing-scams",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.cyber.gov.au/guidance/learn-about-phishing-scams",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:28.628Z"
+    },
+    "KB-CYBER-02": {
+      "url": "https://www.cyber.gov.au/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.cyber.gov.au/",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:28.633Z"
+    },
+    "KB-INTERPOL-01": {
+      "url": "https://www.interpol.int/Crimes/Financial-crime",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.interpol.int/Crimes/Financial-crime",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:28.993Z"
+    },
+    "KB-AARP-01": {
+      "url": "https://www.aarp.org/money/scams-fraud/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.aarp.org/money/scams-fraud/",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:29.402Z"
+    },
+    "KB-SCAMWATCH-01": {
+      "url": "https://www.scamwatch.gov.au/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.scamwatch.gov.au/",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:57:30.855Z"
+    },
+    "KB-GOOGLE-01": {
+      "url": "https://support.google.com/accounts/answer/46526",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://support.google.com/accounts/answer/46526",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:57:41.642Z"
+    },
+    "KB-EUROPOL-01": {
+      "url": "https://www.europol.europa.eu/crime-areas-and-statistics/crime-areas/cybercrime",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.europol.europa.eu/crime-areas/cyber-attacks",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:52:07.658Z",
+      "lastFailureAt": "2026-11-22T10:57:47.984Z",
+      "lastFailure": "fetch failed"
+    },
+    "KB-OJK-01": {
+      "url": "https://www.ojk.go.id/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.ojk.go.id/",
+      "attempts": 3,
+      "checkedAt": "2026-11-22T10:52:25.812Z",
+      "lastFailureAt": "2026-11-22T10:57:47.986Z",
+      "lastFailure": "fetch failed"
+    },
+    "KB-OJK-02": {
+      "url": "https://www.ojk.go.id/id/kanal/edukasi-dan-perlindungan-konsumen/Pages/default.aspx",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.ojk.go.id/id/kanal/edukasi-dan-perlindungan-konsumen/Pages/default.aspx",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:52:15.857Z",
+      "lastFailureAt": "2026-11-22T10:57:49.506Z",
+      "lastFailure": "fetch failed"
+    },
+    "KB-KOMDIGI-01": {
+      "url": "https://www.komdigi.go.id/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.komdigi.go.id/",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:52:07.970Z",
+      "lastFailureAt": "2026-11-22T10:57:51.024Z",
+      "lastFailure": "fetch failed"
+    },
+    "KB-BI-01": {
+      "url": "https://www.bi.go.id/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.bi.go.id/id/default.aspx",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:52:07.457Z",
+      "lastFailureAt": "2026-11-22T10:57:51.025Z",
+      "lastFailure": "fetch failed"
+    },
+    "KB-BSSN-01": {
+      "url": "https://www.bssn.go.id/",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.bssn.go.id/",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:52:08.715Z",
+      "lastFailureAt": "2026-11-22T10:57:51.532Z",
+      "lastFailure": "fetch failed"
+    },
+    "KB-MICROSOFT-01": {
+      "url": "https://www.microsoft.com/en-us/security",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.microsoft.com/en-us/security",
+      "attempts": 1,
+      "checkedAt": "2026-11-22T10:52:09.439Z",
+      "lastFailureAt": "2026-11-22T10:57:52.041Z",
+      "lastFailure": "fetch failed"
+    },
+    "KB-IRS-02": {
+      "url": "https://www.irs.gov/help/tax-scams/recognize-tax-scams-and-fraud",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.irs.gov/help/tax-scams/recognize-tax-scams-and-fraud",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:58:01.000Z"
+    },
+    "KB-OJK-03": {
+      "url": "https://www.ojk.go.id/id/berita-dan-kegiatan/siaran-pers/Pages/default.aspx",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.ojk.go.id/id/berita-dan-kegiatan/siaran-pers/Pages/default.aspx",
+      "attempts": 2,
+      "checkedAt": "2026-11-22T10:58:01.561Z"
+    }
+  }
+}

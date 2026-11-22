@@ -1,0 +1,141 @@
+-- VetShield 305 — Snowflake schema (opsional)
+-- Semua tabel menyimpan data turunan, bukan pesan mentah. Jalankan sebagai role
+-- yang hanya punya akses ke database VETSHIELD_DB.
+
+CREATE DATABASE IF NOT EXISTS VETSHIELD_DB;
+CREATE SCHEMA IF NOT EXISTS VETSHIELD_DB.APP;
+USE DATABASE VETSHIELD_DB;
+USE SCHEMA APP;
+
+-- 1. Setiap pemeriksaan. EXCERPT_REDACTED maksimal 280 karakter dan sudah
+--    disamarkan sebelum dikirim; TEXT_HASH memakai salt dari environment.
+CREATE OR REPLACE TABLE ANALYSES (
+  ANALYSIS_ID       VARCHAR(36)  NOT NULL,
+  TEXT_HASH         VARCHAR(64)  NOT NULL,
+  EXCERPT_REDACTED  VARCHAR(280),
+  CHANNEL           VARCHAR(24)  NOT NULL,
+  LANGUAGE          VARCHAR(8)   NOT NULL,
+  RISK_SCORE        NUMBER(3,0)  NOT NULL,
+  RISK_LABEL        VARCHAR(32)  NOT NULL,
+  CATEGORY          VARCHAR(32)  NOT NULL,
+  REFUSE            BOOLEAN      NOT NULL,
+  DEGRADED          BOOLEAN      NOT NULL,
+  CONFIDENCE        FLOAT        NOT NULL,
+  LATENCY_MS        NUMBER(8,0)  NOT NULL,
+  MODEL_USED        VARCHAR(64)  NOT NULL,
+  CREATED_AT        TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP(),
+  CONSTRAINT PK_ANALYSES PRIMARY KEY (ANALYSIS_ID)
+)
+CLUSTER BY (TO_DATE(CREATED_AT));
+
+-- 2. Jawaban latihan. Tidak ada jawaban teks bebas yang disimpan; hanya hasil.
+CREATE OR REPLACE TABLE LEARNER_RESPONSES (
+  RESPONSE_ID   VARCHAR(36) NOT NULL,
+  SESSION_ID    VARCHAR(64) NOT NULL,
+  SCENARIO_ID   VARCHAR(32) NOT NULL,
+  CATEGORY      VARCHAR(32) NOT NULL,
+  DIFFICULTY    VARCHAR(8)  NOT NULL,
+  VERDICT       VARCHAR(24) NOT NULL,
+  IS_CORRECT    BOOLEAN     NOT NULL,
+  CREATED_AT    TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP(),
+  CONSTRAINT PK_LEARNER_RESPONSES PRIMARY KEY (RESPONSE_ID)
+);
+
+-- 3. Tes sebelum/sesudah. Hanya skor agregat, tanpa identitas.
+CREATE OR REPLACE TABLE PREPOST_TESTS (
+  TEST_ID     VARCHAR(36) NOT NULL,
+  PHASE       VARCHAR(8)  NOT NULL CHECK (PHASE IN ('pre', 'post')),
+  SCORE_PCT   NUMBER(3,0) NOT NULL,
+  CREATED_AT  TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP(),
+  CONSTRAINT PK_PREPOST_TESTS PRIMARY KEY (TEST_ID)
+);
+
+-- 4. Korpus sintetis (cermin dari data/scenarios.jsonl).
+CREATE OR REPLACE TABLE SCENARIOS (
+  SCENARIO_ID       VARCHAR(32) NOT NULL,
+  MESSAGE_TEXT      VARCHAR(4000) NOT NULL,
+  CHANNEL           VARCHAR(24) NOT NULL,
+  LANGUAGE          VARCHAR(8)  NOT NULL,
+  LABEL             VARCHAR(8)  NOT NULL CHECK (LABEL IN ('scam', 'legit')),
+  CATEGORY          VARCHAR(32) NOT NULL,
+  DIFFICULTY        VARCHAR(8)  NOT NULL,
+  RED_FLAGS         VARIANT,
+  EVIDENCE_RULE     VARCHAR(500),
+  ADVERSARIAL       VARCHAR(32),
+  DATASET_SPLIT     VARCHAR(8)  NOT NULL,
+  PII_SAFE          BOOLEAN     DEFAULT TRUE,
+  CREATED_AT        TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP(),
+  CONSTRAINT PK_SCENARIOS PRIMARY KEY (SCENARIO_ID)
+);
+
+-- 5. Knowledge base yang sitasinya muncul di UI. URL wajib diverifikasi manual.
+CREATE OR REPLACE TABLE KNOWLEDGE_DOCS (
+  DOC_ID              VARCHAR(64) NOT NULL,
+  TITLE               VARCHAR(300) NOT NULL,
+  URL                 VARCHAR(1000) NOT NULL,
+  PUBLISHER           VARCHAR(200),
+  LANGUAGE            VARCHAR(8),
+  CATEGORY            VARCHAR(32),
+  KEY_CLAIM           VARCHAR(1000),
+  LAST_VERIFIED_AT    DATE,
+  VERIFIED_HTTP_STATUS NUMBER(3,0),
+  ACTIVE              BOOLEAN DEFAULT TRUE,
+  CONSTRAINT PK_KNOWLEDGE_DOCS PRIMARY KEY (DOC_ID)
+);
+
+-- 6. Prompt produksi. Body disimpan agar setiap hasil bisa dilacak ke versinya.
+CREATE OR REPLACE TABLE PROMPT_VERSIONS (
+  PROMPT_ID    VARCHAR(64) NOT NULL,
+  VERSION      VARCHAR(16) NOT NULL,
+  BODY         VARCHAR,
+  MODEL        VARCHAR(64),
+  TEMPERATURE  FLOAT,
+  NOTES        VARCHAR(1000),
+  ACTIVE       BOOLEAN DEFAULT FALSE,
+  CREATED_AT   TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP(),
+  CONSTRAINT PK_PROMPT_VERSIONS PRIMARY KEY (PROMPT_ID, VERSION)
+);
+
+-- 7. Hasil evaluasi pada split uji. Satu baris per eksekusi.
+CREATE OR REPLACE TABLE EVAL_RUNS (
+  RUN_ID          VARCHAR(36) NOT NULL,
+  RUN_AT          TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP(),
+  SPLIT_RULE      VARCHAR(200) NOT NULL,
+  N_TEST          NUMBER(6,0) NOT NULL,
+  ACCURACY        FLOAT,
+  PRECISION_SCAM  FLOAT,
+  RECALL_SCAM     FLOAT,
+  F1_SCAM         FLOAT,
+  FALSE_ALARM     FLOAT,
+  REFUSAL_RATE    FLOAT,
+  MODEL           VARCHAR(64),
+  NOTES           VARCHAR(2000),
+  CONSTRAINT PK_EVAL_RUNS PRIMARY KEY (RUN_ID)
+);
+
+-- 8. Umpan balik pengguna atas satu hasil, untuk audit kualitas.
+CREATE OR REPLACE TABLE MODEL_FEEDBACK (
+  FEEDBACK_ID  VARCHAR(36) NOT NULL,
+  ANALYSIS_ID  VARCHAR(36),
+  REASON       VARCHAR(32) NOT NULL,
+  COMMENT      VARCHAR(1000),
+  CREATED_AT   TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP(),
+  CONSTRAINT PK_MODEL_FEEDBACK PRIMARY KEY (FEEDBACK_ID)
+);
+
+-- Retensi: hapus cuplikan setelah 7 hari, pertahankan hash untuk statistik.
+-- Jadwalkan dengan Snowflake Task (serverless) setiap jam.
+CREATE OR REPLACE TASK PURGE_OLD_EXCERPTS
+  WAREHOUSE = COMPUTE_WH
+  SCHEDULE = 'USING CRON 0 * * * * UTC'
+AS
+  UPDATE ANALYSES
+     SET EXCERPT_REDACTED = NULL
+   WHERE CREATED_AT < DATEADD(day, -7, CURRENT_TIMESTAMP())
+     AND EXCERPT_REDACTED IS NOT NULL;
+
+-- Catatan tata kelola:
+-- * Tidak ada kolom nama, alamat, atau nomor telepon lengkap.
+-- * Akses dashboard memakai role baca terpisah; tulis memakai role layanan.
+-- * Untuk produksi, tambahkan pemetaan hash per pengguna agar tidak terjadi
+--   penggabungan lintas pengguna.

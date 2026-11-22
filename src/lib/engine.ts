@@ -34,7 +34,7 @@ const SIGNALS: Signal[] = [
     category: "account_security",
     weight: 30,
     pattern:
-      /(kirim(kan)?\s+(kode|otp|pin)|bagikan\s+(kode|otp|pin|kata sandi)|berikan\s+(kode|otp|pin)|sebutkan\s+(kode|otp|pin)|balas[^.\n]{0,40}\b(otp|pin|kode)\b|reply[^.\n]{0,40}\b(code|otp|pin)\b|send[^.\n]{0,40}\b(code|otp|pin)\b|share[^.\n]{0,40}\b(code|otp|pin|password)\b|masukkan\s+(pin|kata sandi|password)|enter your (password|pin)|proporciona[^.\n]{0,30}c[oó]digo)/i,
+      /(kirim(kan)?\s+(kode|otp|pin)|bagikan\s+(kode|otp|pin|kata sandi)|berikan\s+(kode|otp|pin)|sebutkan\s+(kode|otp|pin)|balas[^.\n]{0,40}\b(otp|pin|kode)\b|reply[^.\n]{0,40}\b(code|otp|pin)\b|send[^.\n]{0,40}\b(code|otp|pin)\b|share[^.\n]{0,40}\b(code|otp|pin|password)\b|masukkan\s+(pin|kata sandi|password)|enter your (password|pin)|proporciona[^.\n]{0,30}c[oó]digo|env[íi]e[^.\n]{0,30}c[oó]digo|verifikasi[^.\n]{0,40}kata sandi|confirm your password|verifique[^.\n]{0,30}contraseña)/i,
     flag: {
       id: "Meminta kode verifikasi, PIN, atau kata sandi",
       en: "Asks for a verification code, PIN, or password",
@@ -45,7 +45,7 @@ const SIGNALS: Signal[] = [
     category: "bank",
     weight: 24,
     pattern:
-      /(gift\s*card|voucher|pulsa|bitcoin|usdt|kripto|crypto|transfer(e)?\b|kirim uang|wire transfer|zelle|western union|tarjeta de regalo)/i,
+      /(gift\s*card|pulsa|bitcoin|usdt|kripto|crypto|transfer(e)?\b|kirim uang|wire transfer|zelle|western union|tarjeta de regalo)/i,
     flag: {
       id: "Meminta pembayaran lewat cara yang sulit dilacak",
       en: "Asks for payment in a hard-to-trace way",
@@ -74,11 +74,54 @@ const SIGNALS: Signal[] = [
     },
   },
   {
+    id: "payment_change",
+    category: "bank",
+    weight: 26,
+    pattern:
+      /(rekening (baru|pengganti)|nomor rekening (baru|lain)|new (bank )?account|bank details (have )?changed|datos bancarios (nuevos|cambiaron))/i,
+    flag: {
+      id: "Meminta pembayaran ke rekening yang berubah",
+      en: "Asks for payment to changed bank details",
+    },
+  },
+  {
+    id: "service_suspension",
+    category: "benefits",
+    weight: 18,
+    pattern:
+      /(pembayaran (anda )?(dihentikan|ditangguhkan|ditahan)|bantuan (anda )?(ditangguhkan|dicabut)|payment(s)? (on hold|stopped|suspended)|pago (suspendido|detenido))/i,
+    flag: {
+      id: "Mengancam menghentikan pembayaran atau bantuan",
+      en: "Threatens to stop payments or benefits",
+    },
+  },
+  {
+    id: "vendor_contact_change",
+    category: "other",
+    weight: 16,
+    pattern:
+      /(alamat email baru|email (baru|pengganti)|new email address|correo (nuevo|nueva))/i,
+    flag: {
+      id: "Mengubah kontak resmi di tengah transaksi",
+      en: "Changes official contact details mid-transaction",
+    },
+  },
+  {
+    id: "cash_request",
+    category: "family_emergency",
+    weight: 18,
+    pattern: /(uang tunai|siapkan uang|cash\b|efectivo)/i,
+    flag: {
+      id: "Meminta uang tunai",
+      en: "Asks for cash",
+    },
+  },
+  {
     id: "authority_impersonation",
     category: "benefits",
     weight: 18,
     pattern:
-      /(veterans affairs|\bva\b|social security|\bssa\b|bantuan (pemerintah|sosial)|bansos|subsidi|bpjs|djp|kantor pajak|\birs\b|hmrc|polisi|kepolisian|imigrasi|immigration|seguro social|hacienda)/i,
+      /(veterans affairs|\bva\b|social security|\bssa\b|bantuan (pemerintah|sosial|veteran)|bansos|subsidi|bpjs|djp|kantor pajak|\birs\b|hmrc|polisi|kepolisian|imigrasi|immigration|seguro social|hacienda|veteran benefits)/i,
     flag: {
       id: "Mengaku dari lembaga resmi",
       en: "Claims to come from an official agency",
@@ -89,7 +132,7 @@ const SIGNALS: Signal[] = [
     category: "other",
     weight: 16,
     pattern:
-      /(bit\.ly|tinyurl|t\.co\/|cutt\.ly|\.xyz\b|\.top\b|\.click\b|\.live\b|\.zip\b|https?:\/\/\d{1,3}(\.\d{1,3}){3}|wa\.me\/)/i,
+      /(bit\.ly|tinyurl|t\.co\/|cutt\.ly|\.xyz\b|\.top\b|\.click\b|\.live\b|\.zip\b|https?:\/\/\d{1,3}(\.\d{1,3}){3}|wa\.me\/|[a-z0-9-]*(secure|verify|verifikasi|login|account|update)[a-z0-9-]*\.(com|net|org|info|site))/i,
     flag: {
       id: "Berisi tautan pendek atau alamat mencurigakan",
       en: "Contains a shortened or unusual link",
@@ -109,7 +152,7 @@ const SIGNALS: Signal[] = [
   {
     id: "personal_data_request",
     category: "account_security",
-    weight: 22,
+    weight: 26,
     pattern:
       /(\bnik\b|nomor identitas|nomor rekening|account number|full card number|nomor kartu|ssn\b|tanggal lahir|date of birth|mother'?s maiden|foto ktp)/i,
     flag: {
@@ -144,7 +187,7 @@ const SIGNALS: Signal[] = [
     category: "investment",
     weight: 22,
     pattern:
-      /(untung pasti|profit (dijamin|pasti)|guaranteed (profit|return)|risk[-\s]?free|double your (money|investment)|ganancia garantizada|pasti cuan)/i,
+      /(untung pasti|dijamin untung|untung dijamin|profit (dijamin|pasti)|guaranteed (profit|return)|risk[-\s]?free|double your (money|investment)|ganancia garantizada|pasti cuan)/i,
     flag: {
       id: "Menjanjikan keuntungan pasti",
       en: "Promises guaranteed profit",
@@ -166,7 +209,7 @@ const SIGNALS: Signal[] = [
     category: "job",
     weight: 18,
     pattern:
-      /(biaya (administrasi|pelatihan|pendaftaran|klaim)|deposit (dulu|awal)|registration fee|processing fee|claim fee|pagar (una )?cuota|biaya kirim ulang)/i,
+      /(biaya (administrasi|pelatihan|pendaftaran|klaim|kirim|konsultasi)|deposit (dulu|awal)|transfer deposit|registration fee|processing fee|claim fee|pagar (una )?cuota)/i,
     flag: {
       id: "Meminta biaya di muka",
       en: "Asks for an upfront fee",
@@ -243,7 +286,7 @@ const SIGNALS: Signal[] = [
     category: "delivery",
     weight: 10,
     pattern:
-      /(paket (anda )?(tertahan|gagal|menunggu)|kiriman|kurir|resi\b|parcel|package|customs|bea cukai|paquete)/i,
+      /(paket (anda )?(tertahan|gagal|menunggu)|kiriman|kurir|resi\b|parcel|package|customs|bea cukai|paquete|salah (alamat|antar)|wrong address)/i,
     flag: {
       id: "Mengabarkan paket bermasalah",
       en: "Claims a parcel has a problem",

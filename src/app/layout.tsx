@@ -46,6 +46,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </li>
                 <li>
                   <Link
+                    href="/assessment"
+                    className="rounded-md px-3 py-2 text-shield-900 no-underline hover:bg-shield-50"
+                  >
+                    Tes
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/dashboard"
                     className="rounded-md px-3 py-2 text-shield-900 no-underline hover:bg-shield-50"
                   >

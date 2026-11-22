@@ -12,7 +12,11 @@ export const dynamic = "force-dynamic";
  * dashboard learning panel reads real numbers instead of fabricated ones.
  */
 export async function POST(request: Request): Promise<Response> {
-  const limit = checkRateLimit(`prepost:${clientKey(request.headers, "unknown")}`, 10);
+  const perMinute = Number(process.env.PREPOST_RATE_LIMIT ?? 60);
+  const limit = checkRateLimit(
+    `prepost:${clientKey(request.headers, "unknown")}`,
+    Number.isFinite(perMinute) && perMinute > 0 ? perMinute : 60,
+  );
   if (!limit.allowed) {
     return jsonError(429, "rate_limited", "Too many submissions.", {
       "Retry-After": String(limit.retryAfterSeconds),

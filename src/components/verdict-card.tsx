@@ -106,6 +106,16 @@ export function VerdictCard({
                 <li key={citation.doc_id}>
                   <p className="font-semibold">{citation.title}</p>
                   <p className="text-ink/80">{citation.claim}</p>
+                  {citation.url ? (
+                    <a
+                      href={citation.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="text-[14px] font-semibold text-shield-700 underline"
+                    >
+                      Buka sumber resmi (terverifikasi)
+                    </a>
+                  ) : null}
                   <p className="text-[13px] text-ink/60">Sumber: {citation.doc_id}</p>
                 </li>
               ))}

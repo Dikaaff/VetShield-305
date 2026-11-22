@@ -1,0 +1,1389 @@
+{
+  "generatedAt": "2026-11-22T11:11:42.836Z",
+  "apiBase": "http://localhost:3111",
+  "split": {
+    "rule": "fnv1a(id) % 10 < 3",
+    "testItems": 146,
+    "trainItems": 354
+  },
+  "dataset": {
+    "total": 500,
+    "synthetic": true
+  },
+  "metrics": {
+    "accuracy": 0.773972602739726,
+    "precisionScam": 0.9333333333333333,
+    "recallScam": 0.6588235294117647,
+    "f1Scam": 0.7724137931034482,
+    "falseAlarmRate": 0.06557377049180328,
+    "missRate": 0.3411764705882353,
+    "refused": 0,
+    "refusalRate": 0,
+    "degradedRate": 0,
+    "latencyP50": 0,
+    "latencyP95": 1
+  },
+  "keywordBaseline": {
+    "accuracy": 0.5753424657534246,
+    "precisionScam": 0.6825396825396826,
+    "recallScam": 0.5058823529411764
+  },
+  "confusion": {
+    "likely_legitimate": {
+      "scam": 29,
+      "legit": 57
+    },
+    "suspicious": {
+      "scam": 40,
+      "legit": 4
+    },
+    "scam_likely": {
+      "scam": 16,
+      "legit": 0
+    }
+  },
+  "perDifficulty": {
+    "hard": {
+      "n": 43,
+      "correct": 31
+    },
+    "easy": {
+      "n": 55,
+      "correct": 48
+    },
+    "medium": {
+      "n": 48,
+      "correct": 34
+    }
+  },
+  "perLanguage": {
+    "id": {
+      "n": 88,
+      "correct": 69
+    },
+    "en": {
+      "n": 41,
+      "correct": 31
+    },
+    "es": {
+      "n": 17,
+      "correct": 13
+    }
+  },
+  "rows": [
+    {
+      "id": "sc_0001",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 26,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": "legit_looking_scam"
+    },
+    {
+      "id": "sc_0002",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 42,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": "legit_looking_scam"
+    },
+    {
+      "id": "sc_0008",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 26,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": "legit_looking_scam"
+    },
+    {
+      "id": "sc_0010",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 42,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": "legit_looking_scam"
+    },
+    {
+      "id": "sc_0011",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 8,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": "legit_looking_scam"
+    },
+    {
+      "id": "sc_0019",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0022",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 6,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0028",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 18,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0034",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 54,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0035",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 30,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0037",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 52,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0039",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 34,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0042",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 28,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0043",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 24,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0044",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 12,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0055",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 30,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0056",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 26,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0057",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 52,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0060",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 58,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0061",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 44,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0072",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0073",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 66,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0075",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 30,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0078",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 44,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0079",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 34,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0084",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 12,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0090",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 66,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0091",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 52,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0105",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 70,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0114",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 54,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0115",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 30,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0121",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 44,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0122",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 28,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0123",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 24,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0130",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 66,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0136",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 26,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0137",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 52,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0140",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 58,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0141",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 44,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0143",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 24,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0149",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 42,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0150",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 66,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0151",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 52,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0160",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 58,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0161",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 44,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0167",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 60,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0170",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 66,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0171",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 52,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0172",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0184",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 12,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0185",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 70,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0187",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 60,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0192",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0200",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 10,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0201",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 6,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0208",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0218",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0219",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0222",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0223",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0224",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 10,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0228",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0229",
+      "gold": "legit",
+      "predicted": "suspicious",
+      "score": 40,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0235",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0236",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 10,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0237",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 6,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0238",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0239",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0244",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0245",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0254",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0255",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0257",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0264",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0265",
+      "gold": "legit",
+      "predicted": "suspicious",
+      "score": 40,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0266",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0268",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0273",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 6,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0274",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0275",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0279",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0280",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0282",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0283",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0288",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0289",
+      "gold": "legit",
+      "predicted": "suspicious",
+      "score": 40,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0291",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0300",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "id",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0301",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 18,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": "legit_looking_scam"
+    },
+    {
+      "id": "sc_0310",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0311",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0312",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0325",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 68,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0334",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 44,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0335",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 24,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0340",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 32,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0341",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 66,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0347",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 24,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0349",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 68,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0350",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 16,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0351",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 30,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0352",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 32,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0358",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 44,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0362",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 16,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0363",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 30,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0365",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 66,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0370",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 44,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0372",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 22,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0373",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 68,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0380",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 34,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0381",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 10,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0390",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 34,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0391",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 36,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0392",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 34,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0394",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 44,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0395",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 24,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0396",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 22,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0404",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0405",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0406",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0414",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0415",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0426",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0428",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0429",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0436",
+      "gold": "legit",
+      "predicted": "suspicious",
+      "score": 30,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0437",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0439",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0444",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "en",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0455",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "es",
+      "adversarial": "legit_looking_scam"
+    },
+    {
+      "id": "sc_0456",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 10,
+      "difficulty": "hard",
+      "language": "es",
+      "adversarial": "legit_looking_scam"
+    },
+    {
+      "id": "sc_0457",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "es",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0458",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "es",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0459",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "es",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0460",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "es",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0462",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "es",
+      "adversarial": "scam_looking_legit"
+    },
+    {
+      "id": "sc_0463",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 66,
+      "difficulty": "easy",
+      "language": "es",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0471",
+      "gold": "scam",
+      "predicted": "scam_likely",
+      "score": 66,
+      "difficulty": "easy",
+      "language": "es",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0476",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 32,
+      "difficulty": "medium",
+      "language": "es",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0477",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 16,
+      "difficulty": "medium",
+      "language": "es",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0482",
+      "gold": "scam",
+      "predicted": "likely_legitimate",
+      "score": 16,
+      "difficulty": "easy",
+      "language": "es",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0483",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 44,
+      "difficulty": "easy",
+      "language": "es",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0484",
+      "gold": "scam",
+      "predicted": "suspicious",
+      "score": 32,
+      "difficulty": "medium",
+      "language": "es",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0495",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "medium",
+      "language": "es",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0496",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "easy",
+      "language": "es",
+      "adversarial": null
+    },
+    {
+      "id": "sc_0497",
+      "gold": "legit",
+      "predicted": "likely_legitimate",
+      "score": 0,
+      "difficulty": "hard",
+      "language": "es",
+      "adversarial": null
+    }
+  ]
+}
