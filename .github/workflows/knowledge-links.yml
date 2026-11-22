@@ -1,0 +1,36 @@
+name: Knowledge link check
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify 40 source URLs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check every source URL
+        run: node scripts/verify-knowledge.mjs
+
+      - name: Validate verification output
+        run: node scripts/check-knowledge.mjs
+
+      - name: Upload verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: knowledge-verification
+          path: data/knowledge-verification.json
+          if-no-files-found: warn

@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Typecheck, build, and evaluation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Validate knowledge base integrity
+        run: npm run check:knowledge
+
+      - name: Run held-out evaluation
+        env:
+          ANALYZE_RATE_LIMIT: "1000"
+        run: |
+          npm start -- -p 3111 &
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://localhost:3111/api/health > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --silent --fail http://localhost:3111/api/health
+          API_BASE=http://localhost:3111 npm run eval
+          node -e "const r=require('./data/eval-results.json'); console.log(JSON.stringify({metrics:r.metrics, baseline:r.keywordBaseline}, null, 2))"
+
+      - name: Upload evaluation results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: data/eval-results.json
+          if-no-files-found: warn

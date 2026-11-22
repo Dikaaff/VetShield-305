@@ -33,6 +33,8 @@ POST /api/practice/next     → 200
 POST /api/practice/answer   → 200, partially_correct
 GET  /api/dashboard/summary → 200, source=local
 npm run eval (146 item)     → akurasi 77,4%, recall 65,9%, alarm palsu 6,6%
+live /api/health            → knowledge 120/120, snowflake.configured=false
+live pages                  → /, /practice, /assessment, /dashboard = 200
 node scripts/verify-knowledge.mjs → 40/40 sumber HTTP 200, 120 dokumen
 mock Snowflake + next start → dashboard source=snowflake, 3 analisis, 1 latihan, 2 pre/post
 mock dimatikan              → dashboard 200 source=local, analyze 200
@@ -127,6 +129,12 @@ skema, atau konsistensi bahasa. Jangan aktifkan tanpa evaluasi. Status saat ini 
 - Knowledge base diperluas dari 12 menjadi 120 dokumen dan seluruh URL diverifikasi.
 - Instrumen pre/post 10 soal ditambahkan; batas kiriman dibuat dapat diatur
   (`PREPOST_RATE_LIMIT`, default 60) agar satu kelas dengan satu IP tidak terblokir.
+- Deploy produksi ke Vercel awalnya diblokir karena Next.js 15.5.4 memiliki CVE.
+  Dependency dinaikkan ke 15.5.29, build diulang, dan deploy berhasil. `PII_HASH_SALT`
+  produksi diset sebagai secret, bukan nilai pengembangan.
+- Situs live diperiksa: lima halaman 200, knowledge 120/120, analisis mengembalikan dua
+  sitasi FTC, latihan memuat korpus dari bundel serverless, dan dashboard menandai
+  `source=memory` tanpa Snowflake.
 - Retensi lokal: baris lebih tua dari `RETENTION_DAYS` (default 7) sekarang dipangkas
   saat penulisan/ringkasan. Awalnya hanya Snowflake yang punya task pembersihan,
   sehingga klaim retensi belum benar untuk penyimpanan lokal.

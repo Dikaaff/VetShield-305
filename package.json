@@ -11,11 +11,12 @@
     "data:scenarios": "node scripts/generate-scenarios.mjs",
     "data:knowledge": "node scripts/verify-knowledge.mjs && node scripts/build-knowledge.mjs",
     "verify:knowledge": "node scripts/verify-knowledge.mjs",
+    "check:knowledge": "node scripts/check-knowledge.mjs",
     "mock:snowflake": "node scripts/mock-snowflake.mjs",
     "eval": "node scripts/eval.mjs"
   },
   "dependencies": {
-    "next": "15.5.4",
+    "next": "15.5.29",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

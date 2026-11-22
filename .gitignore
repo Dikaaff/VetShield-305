@@ -7,4 +7,7 @@ next-env.d.ts
 .env.local
 .env.*.local
 .data/
+.vercel/
 .DS_Store
+
+.vercel
