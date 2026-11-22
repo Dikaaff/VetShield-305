@@ -1,16 +1,42 @@
 "use client";
 
+import { ExternalLink } from "lucide-react";
 import { copy } from "@/lib/copy";
+import { cn } from "@/lib/utils";
 import type { AnalysisResult, Language } from "@/lib/types";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
-const BAND_STYLE: Record<
+const BAND: Record<
   AnalysisResult["label"],
-  { wrapper: string; icon: string; symbol: string }
+  { header: string; tone: string; badge: "default" | "orange" | "sage" | "outline" }
 > = {
-  scam_likely: { wrapper: "bg-alert-high text-white", icon: "!", symbol: "!" },
-  suspicious: { wrapper: "bg-alert-mid text-white", icon: "!", symbol: "!" },
-  likely_legitimate: { wrapper: "bg-alert-low text-white", icon: "✓", symbol: "✓" },
-  insufficient_info: { wrapper: "bg-shield-700 text-white", icon: "?", symbol: "?" },
+  scam_likely: {
+    header: "bg-[#8F241F] text-[#FFF4EE]",
+    tone: "text-[#8F241F]",
+    badge: "orange",
+  },
+  suspicious: {
+    header: "bg-[#B45309] text-[#FFF8EC]",
+    tone: "text-[#9A4708]",
+    badge: "orange",
+  },
+  likely_legitimate: {
+    header: "bg-forest-700 text-cream",
+    tone: "text-forest-700",
+    badge: "sage",
+  },
+  insufficient_info: {
+    header: "bg-forest-900 text-cream",
+    tone: "text-forest-900",
+    badge: "default",
+  },
 };
 
 export function VerdictCard({
@@ -21,73 +47,72 @@ export function VerdictCard({
   language: Language;
 }) {
   const dict = copy[language];
-  const band = BAND_STYLE[result.label];
+  const band = BAND[result.label];
   const confidencePct = Math.round(result.confidence * 100);
 
   return (
     <section
       aria-live="polite"
       aria-label="Hasil pemeriksaan"
-      className="overflow-hidden rounded-2xl border border-shield-100 bg-white shadow-card"
+      className="overflow-hidden rounded-3xl border border-line bg-paper shadow-card"
     >
-      <div className={`flex items-center gap-3 px-5 py-4 ${band.wrapper}`}>
-        <span
-          aria-hidden="true"
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-base font-bold"
-        >
-          {band.symbol}
-        </span>
-        <p className="text-lg font-bold">{dict.band[result.label]}</p>
-      </div>
+      <header className={cn("flex items-start justify-between gap-4 px-5 py-4 sm:px-7", band.header)}>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] opacity-60">
+            Hasil pemeriksaan
+          </p>
+          <p className="mt-1 text-[13px] font-semibold opacity-90">{dict.category[result.category]}</p>
+        </div>
+        <div className="text-right">
+          <p className="font-display text-[40px] font-semibold leading-none">
+            {result.risk_score}
+            <span className="text-base opacity-50">/100</span>
+          </p>
+          <p className="text-[10px] uppercase tracking-[0.14em] opacity-60">skor risiko</p>
+        </div>
+      </header>
 
-      <div className="space-y-6 px-5 py-6 sm:px-7">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-[15px] font-medium uppercase tracking-wide text-shield-700">
-              {dict.category[result.category]}
-            </p>
-            <h2 className="mt-1 text-2xl font-bold text-ink sm:text-3xl">
-              {dict.label[result.label]}
-            </h2>
-          </div>
-          <div className="text-right">
-            <p className="text-[14px] text-ink/70">Skor risiko</p>
-            <p className="font-serif text-5xl font-bold leading-none text-shield-900">
-              {result.risk_score}
-              <span className="text-2xl text-ink/50">/100</span>
-            </p>
-          </div>
+      <div className="p-5 sm:p-7">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant={band.badge}>{dict.band[result.label]}</Badge>
+          <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-forest/60">
+            {result.label.replaceAll("_", " ")}
+          </span>
         </div>
 
+        <h2 className={cn("mt-3 font-display text-[clamp(1.9rem,4vw,2.6rem)] font-semibold leading-[1.02]", band.tone)}>
+          {dict.label[result.label]}
+        </h2>
+
         {result.red_flags.length > 0 && (
-          <div>
-            <h3 className="text-base font-bold text-ink">{dict.flagTitle}</h3>
-            <ul className="mt-2 space-y-2">
-              {result.red_flags.map((flag) => (
-                <li key={flag} className="flex gap-2 text-[17px] leading-relaxed">
-                  <span aria-hidden="true" className="mt-1 text-alert-high">
-                    ●
+          <div className="mt-6">
+            <h3 className="eyebrow text-forest/65">{dict.flagTitle}</h3>
+            <ul className="mt-3 space-y-2.5">
+              {result.red_flags.map((flag, index) => (
+                <li key={flag} className="flex gap-3 text-[15.5px] leading-relaxed text-forest/85">
+                  <span className="mt-0.5 font-mono text-[11px] font-bold text-orange">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span>{flag}</span>
+                  {flag}
                 </li>
               ))}
             </ul>
           </div>
         )}
 
-        <p className="text-lg leading-relaxed text-ink sm:text-[19px]">
+        <p className="mt-6 border-t border-line pt-5 text-[17px] leading-relaxed text-forest-900/85">
           {result.plain_explanation}
         </p>
 
-        <div>
-          <h3 className="text-base font-bold text-ink">{dict.actionTitle}</h3>
-          <ol className="mt-3 grid list-none gap-3 sm:grid-cols-3">
+        <div className="mt-6">
+          <h3 className="eyebrow text-forest/65">{dict.actionTitle}</h3>
+          <ol className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
             {result.safe_actions.map((action, index) => (
               <li
                 key={action}
-                className="rounded-xl border border-shield-100 bg-shield-50 p-4 text-[16px] leading-snug"
+                className="rounded-2xl border border-forest/10 bg-cream/70 p-4 text-[14px] leading-relaxed text-forest/80"
               >
-                <span className="mb-1 block font-serif text-2xl font-bold text-shield-700">
+                <span className="mb-2 flex h-7 w-7 items-center justify-center rounded-full bg-forest text-[12px] font-bold text-cream">
                   {index + 1}
                 </span>
                 {action}
@@ -97,40 +122,43 @@ export function VerdictCard({
         </div>
 
         {result.citations.length > 0 && (
-          <details className="rounded-xl border border-shield-100 p-4">
-            <summary className="text-[16px] font-semibold text-shield-900">
-              {dict.citationTitle}
-            </summary>
-            <ul className="mt-3 space-y-3 text-[15px]">
-              {result.citations.map((citation) => (
-                <li key={citation.doc_id}>
-                  <p className="font-semibold">{citation.title}</p>
-                  <p className="text-ink/80">{citation.claim}</p>
-                  {citation.url ? (
-                    <a
-                      href={citation.url}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="text-[14px] font-semibold text-shield-700 underline"
-                    >
-                      Buka sumber resmi (terverifikasi)
-                    </a>
-                  ) : null}
-                  <p className="text-[13px] text-ink/60">Sumber: {citation.doc_id}</p>
-                </li>
-              ))}
-            </ul>
-          </details>
+          <Accordion type="single" collapsible className="mt-6 border-t border-line">
+            <AccordionItem value="citations" className="border-b-0">
+              <AccordionTrigger className="text-[13px] uppercase tracking-[0.1em]">
+                {dict.citationTitle}
+              </AccordionTrigger>
+              <AccordionContent>
+                <ul className="space-y-4">
+                  {result.citations.map((citation) => (
+                    <li key={citation.doc_id} className="rounded-xl border border-line bg-cream/50 p-3.5">
+                      <p className="text-[14px] font-semibold text-forest-900">{citation.title}</p>
+                      <p className="mt-1 text-[14px] leading-relaxed text-forest/70">{citation.claim}</p>
+                      {citation.url ? (
+                        <a
+                          href={citation.url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="mt-2 inline-flex items-center gap-1.5 text-[12px] font-semibold text-forest-700 underline underline-offset-4"
+                        >
+                          Buka sumber resmi <ExternalLink className="h-3 w-3" />
+                        </a>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         )}
 
-        <div className="space-y-1 border-t border-shield-100 pt-4 text-[15px] text-ink/80">
-          <p>
-            {dict.confidence}: {confidencePct}% · {result.safety_meta.degraded
-              ? "Analisis terbatas (mode cadangan)"
-              : "Analisis penuh"}
-          </p>
-          <p>{dict.limitations}</p>
-          <p className="text-[14px] text-ink/60">{dict.notAdvice}</p>
+        <div className="mt-6 space-y-3 rounded-2xl bg-forest-50/70 p-4">
+          <div className="flex items-center justify-between text-[12px] text-forest/60">
+            <span>{dict.confidence}</span>
+            <span className="font-semibold text-forest-900">{confidencePct}%</span>
+          </div>
+          <Progress value={confidencePct} className="h-1.5" />
+          <p className="text-[12.5px] leading-relaxed text-forest/70">{dict.limitations}</p>
+          <p className="text-[11.5px] leading-relaxed text-forest/60">{dict.notAdvice}</p>
         </div>
       </div>
     </section>

@@ -2,6 +2,12 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { ArrowUpRight, Check, ChevronDown, Loader2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils";
 
 type Phase = "pre" | "post";
 
@@ -126,103 +132,117 @@ export function Assessment() {
   }
 
   return (
-    <section aria-labelledby="assessment-title" className="space-y-6">
-      <div>
-        <h1 id="assessment-title" className="text-3xl font-bold text-ink sm:text-4xl">
-          Tes singkat: sebelum dan sesudah latihan
-        </h1>
-        <p className="mt-3 max-w-2xl text-[17px] leading-relaxed text-ink/85">
-          Sepuluh pesan, tanpa data pribadi. Skor hanya dipakai untuk mengukur apakah
-          latihan membantu; kami tidak menyimpan nama atau jawaban per orang.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <div className="flex flex-col gap-4 rounded-3xl border border-line bg-paper p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="inline-flex w-full rounded-full border border-forest/10 bg-forest-50 p-1 sm:w-auto">
+          {(
+            [
+              ["pre", "Sebelum latihan"],
+              ["post", "Sesudah latihan"],
+            ] as const
+          ).map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => switchPhase(value)}
+              aria-pressed={phase === value}
+              className={cn(
+                "flex-1 rounded-full px-4 py-2 text-[13px] font-semibold transition sm:flex-none",
+                phase === value
+                  ? "bg-forest text-paper shadow-sm"
+                  : "text-forest/60 hover:text-forest-900",
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
 
-      <div
-        role="group"
-        aria-label="Pilih tahap tes"
-        className="inline-flex overflow-hidden rounded-lg border border-shield-200 bg-white"
-      >
-        {(
-          [
-            ["pre", "Sebelum latihan"],
-            ["post", "Sesudah latihan"],
-          ] as const
-        ).map(([value, label]) => (
-          <button
-            key={value}
-            type="button"
-            onClick={() => switchPhase(value)}
-            aria-pressed={phase === value}
-            className={`px-4 py-2 text-[15px] font-semibold ${
-              phase === value ? "bg-shield-700 text-white" : "text-shield-900 hover:bg-shield-50"
-            }`}
-          >
-            {label}
-          </button>
-        ))}
+        <div className="flex flex-1 items-center gap-3 sm:max-w-xs">
+          <Progress value={(answered / QUESTIONS.length) * 100} className="h-1.5" />
+          <span className="whitespace-nowrap font-mono text-[11px] text-forest/65">
+            {answered}/{QUESTIONS.length}
+          </span>
+        </div>
       </div>
 
       {submitted ? (
-        <div aria-live="polite" className="rounded-2xl border border-shield-100 bg-white p-6 shadow-card">
-          <p className="text-[14px] font-semibold uppercase tracking-wide text-shield-700">
-            {phase === "pre" ? "Tes sebelum latihan" : "Tes sesudah latihan"} tercatat
-          </p>
-          <p className="mt-2 font-serif text-5xl font-bold text-shield-900">{submitted.score}%</p>
-          <p className="mt-2 text-[17px] text-ink/85">
-            {phase === "pre"
-              ? "Sekarang coba satu sesi latihan singkat, lalu isi tes sesudahnya."
-              : "Terima kasih. Skor ini masuk ke panel pembelajaran di dashboard."}
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            {phase === "pre" ? (
-              <Link
-                href="/practice"
-                className="rounded-xl bg-shield-700 px-5 py-3 font-bold text-white no-underline hover:bg-shield-900"
-              >
-                Mulai latihan →
-              </Link>
-            ) : (
-              <Link
-                href="/dashboard"
-                className="rounded-xl bg-shield-700 px-5 py-3 font-bold text-white no-underline hover:bg-shield-900"
-              >
-                Lihat dashboard →
-              </Link>
-            )}
-            <button
-              type="button"
-              onClick={() => switchPhase(phase === "pre" ? "post" : "pre")}
-              className="rounded-xl border border-shield-300 px-5 py-3 font-semibold text-shield-900"
-            >
-              {phase === "pre" ? "Isi tes sesudah latihan" : "Isi tes sebelum latihan"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setReview((current) => !current)}
-              className="rounded-xl px-3 py-3 font-semibold text-shield-900 underline"
-            >
-              {review ? "Sembunyikan pembahasan" : "Lihat pembahasan"}
-            </button>
+        <section aria-live="polite" className="overflow-hidden rounded-3xl border border-line bg-paper shadow-card">
+          <div className="grid grid-cols-1 gap-6 bg-forest-900 p-6 text-cream sm:p-8 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-cream/65">
+                Tes {phase === "pre" ? "sebelum" : "sesudah"} latihan tercatat
+              </p>
+              <h2 className="mt-3 max-w-xl font-display text-[clamp(1.8rem,3.6vw,2.8rem)] font-semibold leading-tight">
+                {phase === "pre"
+                  ? "Sekarang coba satu sesi latihan singkat."
+                  : "Terima kasih. Skor ini masuk ke panel pembelajaran."}
+              </h2>
+            </div>
+            <p className="font-display text-[clamp(4rem,10vw,6rem)] font-semibold leading-none text-lime">
+              {submitted.score}
+              <span className="text-2xl text-cream/60">%</span>
+            </p>
           </div>
 
-          {review && (
-            <ol className="mt-6 space-y-4">
-              {QUESTIONS.map((question, index) => {
-                const chosen = answers[question.id];
-                const correct = chosen === question.answer;
-                return (
-                  <li key={question.id} className="rounded-xl border border-shield-100 p-4">
-                    <p className="text-[15px] font-semibold text-ink">
-                      {index + 1}. {correct ? "Benar" : "Belum tepat"} —{" "}
-                      {question.answer === "scam" ? "penipuan" : "wajar"}
-                    </p>
-                    <p className="mt-1 text-[15px] text-ink/80">{question.why}</p>
-                  </li>
-                );
-              })}
-            </ol>
-          )}
-        </div>
+          <div className="space-y-5 p-6 sm:p-8">
+            <div className="flex flex-wrap gap-3">
+              {phase === "pre" ? (
+                <Button asChild size="lg">
+                  <Link href="/practice">
+                    Mulai latihan <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              ) : (
+                <Button asChild size="lg">
+                  <Link href="/dashboard">
+                    Lihat dashboard <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              )}
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                onClick={() => switchPhase(phase === "pre" ? "post" : "pre")}
+              >
+                {phase === "pre" ? "Isi tes sesudah latihan" : "Isi tes sebelum latihan"}
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="lg"
+                onClick={() => setReview((current) => !current)}
+                aria-expanded={review}
+              >
+                {review ? "Sembunyikan pembahasan" : "Lihat pembahasan"}
+                <ChevronDown className={cn("h-4 w-4 transition", review && "rotate-180")} />
+              </Button>
+            </div>
+
+            {review && (
+              <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {QUESTIONS.map((question, index) => {
+                  const correct = answers[question.id] === question.answer;
+                  return (
+                    <li key={question.id} className="rounded-2xl border border-line p-4">
+                      <p className="text-[13px] font-semibold text-forest-900">
+                        <span className="font-mono text-[10px] text-forest/70">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>{" "}
+                        {correct ? "Benar" : "Belum tepat"} —{" "}
+                        {question.answer === "scam" ? "penipuan" : "wajar"}
+                      </p>
+                      <p className="mt-1.5 text-[13.5px] leading-relaxed text-forest/65">
+                        {question.why}
+                      </p>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
+          </div>
+        </section>
       ) : (
         <form
           onSubmit={(event) => {
@@ -231,72 +251,105 @@ export function Assessment() {
           }}
           className="space-y-4"
         >
-          {QUESTIONS.map((question, index) => (
-            <fieldset
-              key={question.id}
-              className="rounded-2xl border border-shield-100 bg-white p-5"
-            >
-              <legend className="px-1 text-[15px] font-semibold text-shield-700">
-                Soal {index + 1} dari {QUESTIONS.length}
-              </legend>
-              <p className="mt-1 text-[17px] leading-relaxed text-ink">{question.text}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {(
-                  [
-                    ["scam", "Ini penipuan"],
-                    ["legit", "Ini pesan wajar"],
-                  ] as const
-                ).map(([value, label]) => (
-                  <label
-                    key={value}
-                    className={`flex cursor-pointer items-center gap-2 rounded-lg border-2 px-4 py-2 text-[16px] ${
-                      answers[question.id] === value
-                        ? "border-shield-700 bg-shield-50"
-                        : "border-shield-100 hover:border-shield-300"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name={question.id}
-                      value={value}
-                      checked={answers[question.id] === value}
-                      onChange={() =>
-                        setAnswers((current) => ({ ...current, [question.id]: value }))
-                      }
-                      className="h-5 w-5"
-                    />
-                    {label}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-          ))}
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+            {QUESTIONS.map((question, index) => (
+              <fieldset
+                key={question.id}
+                className="flex flex-col rounded-3xl border border-line bg-paper p-5 sm:p-6"
+              >
+                <legend className="sr-only">Soal {index + 1}</legend>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[11px] font-bold text-orange">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-forest/65">
+                    Pilih satu jawaban
+                  </span>
+                </div>
+                <p className="mt-4 flex-1 text-[16px] leading-relaxed text-forest-900">
+                  {question.text}
+                </p>
+                <RadioGroup
+                  value={answers[question.id]}
+                  onValueChange={(value) =>
+                    setAnswers((current) => ({
+                      ...current,
+                      [question.id]: value as "scam" | "legit",
+                    }))
+                  }
+                  className="mt-4 grid grid-cols-2 gap-2"
+                >
+                  {(
+                    [
+                      ["scam", "Penipuan"],
+                      ["legit", "Wajar"],
+                    ] as const
+                  ).map(([value, label]) => {
+                    const selected = answers[question.id] === value;
+                    return (
+                      <label
+                        key={value}
+                        className={cn(
+                          "flex cursor-pointer items-center gap-2 rounded-xl border-2 px-3 py-2.5 text-[13px] font-semibold transition",
+                          selected
+                            ? "border-forest bg-forest-50 text-forest-900"
+                            : "border-forest/10 text-forest/70 hover:border-forest/25",
+                        )}
+                      >
+                        <RadioGroupItem value={value} />
+                        {label}
+                        {selected && <Check className="ml-auto h-3.5 w-3.5" strokeWidth={3} />}
+                      </label>
+                    );
+                  })}
+                </RadioGroup>
+              </fieldset>
+            ))}
+          </div>
 
           {error && (
-            <p role="alert" className="rounded-lg border-2 border-alert-high bg-white p-3 text-alert-high">
+            <p role="alert" className="rounded-2xl border-2 border-alert-high bg-paper p-4 text-[14px] text-alert-high">
               {error}
             </p>
           )}
 
-          <div className="flex flex-wrap items-center gap-4">
-            <button
+          <div className="flex flex-col gap-4 rounded-3xl border border-line bg-sage/60 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+            <div>
+              <p className="text-[13px] font-semibold text-forest-900">
+                {answered < QUESTIONS.length
+                  ? `Terjawab ${answered} dari ${QUESTIONS.length} soal.`
+                  : "Semua soal terjawab. Skor siap dikirim."}
+              </p>
+              <p className="mt-1 text-[12.5px] text-forest/70">
+                Tanpa nama, tanpa email, tanpa jawaban per orang.
+              </p>
+            </div>
+            <Button
               type="submit"
+              size="lg"
               disabled={submitting || answered < QUESTIONS.length}
-              className="min-h-[52px] rounded-xl bg-shield-700 px-6 text-lg font-bold text-white hover:bg-shield-900 disabled:opacity-50"
+              className="w-full sm:w-auto"
             >
-              {submitting ? "Mengirim…" : "Kirim skor"}
-            </button>
-            <p className="text-[15px] text-ink/70">
-              Terjawab {answered}/{QUESTIONS.length}. Tanpa nama, tanpa email.
-            </p>
+              {submitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Mengirim…
+                </>
+              ) : (
+                <>
+                  Kirim skor {phase === "pre" ? "sebelum" : "sesudah"}
+                  <ArrowUpRight className="h-4 w-4" />
+                </>
+              )}
+            </Button>
           </div>
         </form>
       )}
 
-      <p className="rounded-xl border-l-4 border-alert-mid bg-white p-4 text-[15px] text-ink/80">
+      <p className="rounded-2xl border-l-2 border-orange bg-paper/70 p-4 text-[13px] leading-relaxed text-forest/60">
         Tes ini alat ukur edukasi, bukan ujian. Skor rendah berarti ada aturan baru untuk
-        dilatih, bukan penilaian terhadap Anda.
+        dilatih, bukan penilaian terhadap Anda. Panel dashboard baru menampilkan klaim
+        perubahan setelah minimal 20 responden berpasangan.
       </p>
-    </section>
+    </div>
   );
 }
