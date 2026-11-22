@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { Brand } from "@/components/brand";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -24,12 +25,12 @@ export function SiteHeader() {
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-forest/10 bg-cream/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-[72px] max-w-[1240px] items-center justify-between gap-4 px-5 sm:px-8">
+    <header className="sticky top-0 z-50 border-b border-line/80 bg-cream/90 backdrop-blur-xl">
+      <div className="mx-auto flex h-[80px] max-w-[1240px] items-center justify-between gap-4 px-5 sm:px-8">
         <Brand />
 
         <nav aria-label="Navigasi utama" className="hidden md:block">
-          <ul className="flex items-center gap-1 rounded-full border border-forest/10 bg-paper/70 p-1">
+          <ul className="flex items-center gap-1 rounded-xl border border-line bg-paper/90 p-1 shadow-sm">
             {NAV.map((item) => {
               const active =
                 item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
@@ -39,7 +40,7 @@ export function SiteHeader() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "block rounded-full px-4 py-2 text-[14px] font-semibold no-underline transition-colors",
+                      "block rounded-lg px-4 py-2 text-[13px] font-semibold no-underline transition-colors",
                       active
                         ? "bg-forest text-paper"
                         : "text-forest/70 hover:bg-forest-50 hover:text-forest-900",
@@ -54,6 +55,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <Button asChild size="sm" className="hidden sm:inline-flex">
             <Link href="/#analyzer">
               Periksa pesan
@@ -66,7 +68,7 @@ export function SiteHeader() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Tutup menu" : "Buka menu"}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-forest/15 bg-paper text-forest md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-paper text-forest md:hidden"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -83,6 +85,10 @@ export function SiteHeader() {
         )}
       >
         <nav aria-label="Navigasi seluler" className="px-5 py-5">
+          <div className="mb-4 flex items-center justify-between rounded-xl border border-line bg-paper px-3 py-2">
+            <span className="text-[13px] font-semibold text-forest">Mode tampilan</span>
+            <ThemeToggle />
+          </div>
           <ul className="space-y-1">
             {NAV.map((item, index) => (
               <li key={item.href}>

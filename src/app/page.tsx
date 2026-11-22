@@ -306,7 +306,7 @@ export default function HomePage() {
                     Ini pesan wajar
                   </div>
                 </div>
-                <div className="mt-5 rounded-xl border-l-2 border-orange bg-cream px-4 py-3 text-[13px] leading-relaxed text-forest/70">
+                <div className="mt-5 rounded-xl border border-line bg-sage/50 px-4 py-3 text-[13px] leading-relaxed text-forest/70">
                   <strong className="text-forest-900">Kenapa:</strong> kata sandi hanya
                   dimasukkan di aplikasi resmi, bukan lewat tautan pesan.
                 </div>

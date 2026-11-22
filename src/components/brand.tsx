@@ -2,25 +2,29 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export function ShieldMark({ className, tone = "forest" }: { className?: string; tone?: "forest" | "cream" }) {
+  const isLight = tone === "cream";
+
   return (
     <svg
-      viewBox="0 0 40 44"
-      className={cn("h-9 w-auto", className)}
+      viewBox="0 0 44 44"
+      className={cn("h-9 w-9 shrink-0", className)}
       fill="none"
       aria-hidden="true"
     >
       <path
-        d="M20 2.5 35.5 8v12.6c0 9.6-6.4 16.5-15.5 20.4C10.9 37.1 4.5 30.2 4.5 20.6V8L20 2.5Z"
-        fill={tone === "forest" ? "#153F2C" : "#F6F1E5"}
+        d="M22 3.5 38 10v11.2c0 9.4-6.2 16.2-16 19.3C12.2 37.4 6 30.6 6 21.2V10L22 3.5Z"
+        fill={isLight ? "#FFFFFF" : "#2563EB"}
+        stroke={isLight ? "#FFFFFF" : "#1D4ED8"}
+        strokeWidth="1.5"
+        strokeLinejoin="round"
       />
       <path
-        d="m12.6 15.4 7.4 15.2 7.4-15.2"
-        stroke={tone === "forest" ? "#F6F1E5" : "#153F2C"}
-        strokeWidth="2.6"
+        d="m14.2 22.2 5.1 5.1 10.6-11"
+        stroke={isLight ? "#0B1220" : "#FFFFFF"}
+        strokeWidth="3.1"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx="31.5" cy="8.5" r="4.2" fill="#E4572E" stroke={tone === "forest" ? "#F6F1E5" : "#153F2C"} strokeWidth="1.5" />
     </svg>
   );
 }
@@ -44,7 +48,7 @@ export function Brand({
     >
       <ShieldMark tone={inverted ? "cream" : "forest"} className="transition-transform duration-300 group-hover:-translate-y-0.5" />
       <span className="flex items-baseline gap-2">
-        <span className="font-display text-[23px] font-semibold leading-none tracking-[-0.035em]">
+        <span className="font-display text-[23px] font-extrabold leading-none tracking-[-0.045em]">
           VetShield
         </span>
         <span

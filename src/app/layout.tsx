@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { Fraunces, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
-const display = Fraunces({
+const display = Manrope({
   subsets: ["latin"],
   variable: "--font-display",
-  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -36,8 +35,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${display.variable} ${sans.variable}`}>
+    <html lang="id" suppressHydrationWarning className={`${display.variable} ${sans.variable}`}>
       <body className="flex min-h-screen flex-col bg-cream font-sans text-ink antialiased">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => { try { const dark = localStorage.getItem('vetshield-theme-v2') === 'dark'; document.documentElement.classList.toggle('dark', dark); document.documentElement.style.colorScheme = dark ? 'dark' : 'light'; } catch {} })();`,
+          }}
+        />
         <a href="#main" className="skip-link">
           Langsung ke isi utama
         </a>

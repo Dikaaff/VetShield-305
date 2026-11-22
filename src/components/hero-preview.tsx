@@ -5,10 +5,10 @@ export function HeroPreview() {
     <div className="relative mx-auto w-full max-w-[500px] px-1 pb-6 sm:px-4 lg:max-w-none lg:px-0">
       <div
         aria-hidden="true"
-        className="absolute -right-2 top-8 h-[74%] w-[82%] rounded-[46%_54%_44%_56%/52%_44%_56%_48%] bg-sage sm:right-0"
+        className="absolute -right-4 top-8 h-[74%] w-[82%] rounded-[2rem] bg-sage sm:right-0"
       />
 
-      <div className="relative z-10 rounded-[26px] border border-forest-900/30 bg-forest-900 p-4 text-cream shadow-lift sm:p-5 lg:rotate-[-1.5deg]">
+      <div className="relative z-10 rounded-[1.5rem] border border-forest-900/30 bg-forest-900 p-4 text-cream shadow-lift sm:p-5">
         <div className="flex items-center justify-between gap-3 border-b border-cream/15 pb-3">
           <div className="flex items-center gap-2">
             <ShieldMark tone="cream" className="h-6" />
@@ -60,7 +60,7 @@ export function HeroPreview() {
         </div>
       </div>
 
-      <div className="relative z-20 -mt-3 ml-auto w-[88%] rounded-2xl border border-line bg-paper p-4 shadow-lift sm:w-[80%] lg:rotate-[1.5deg]">
+      <div className="relative z-20 -mt-3 ml-auto w-[88%] rounded-2xl border border-line bg-paper p-4 shadow-lift sm:w-[80%]">
         <div className="flex items-center justify-between gap-2">
           <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-forest/65">
             Kode OTP asli

@@ -4,8 +4,74 @@
 
 :root {
   color-scheme: light;
-  --radius: 0.9rem;
+  --radius: 0.75rem;
+  --color-cream: 216 33% 98%;
+  --color-paper: 0 0% 100%;
+  --color-ink: 218 33% 11%;
+  --color-line: 216 20% 90%;
+  --color-input: 216 16% 84%;
+  --color-forest: 221 39% 17%;
+  --color-forest-50: 210 40% 98%;
+  --color-forest-100: 214 32% 95%;
+  --color-forest-200: 214 32% 91%;
+  --color-forest-300: 214 20% 82%;
+  --color-forest-500: 215 16% 47%;
+  --color-forest-700: 215 25% 27%;
+  --color-forest-900: 221 50% 9%;
+  --color-sage: 214 100% 97%;
+  --color-lime: 213 100% 94%;
+  --color-orange: 217 91% 60%;
+  --color-orange-600: 221 83% 53%;
+  --color-orange-100: 214 95% 93%;
+  --color-clay: 215 25% 65%;
+  --color-muted: 210 20% 96%;
+  --color-muted-foreground: 215 16% 47%;
+  --color-destructive: 5 73% 42%;
 }
+
+.dark {
+  color-scheme: dark;
+  --color-cream: 0 0% 3%;
+  --color-paper: 0 0% 7%;
+  --color-ink: 0 0% 96%;
+  --color-line: 0 0% 20%;
+  --color-input: 0 0% 28%;
+  --color-forest: 217 91% 65%;
+  --color-forest-50: 0 0% 10%;
+  --color-forest-100: 0 0% 13%;
+  --color-forest-200: 0 0% 19%;
+  --color-forest-300: 0 0% 28%;
+  --color-forest-500: 217 91% 65%;
+  --color-forest-700: 0 0% 78%;
+  --color-forest-900: 0 0% 4%;
+  --color-sage: 0 0% 11%;
+  --color-lime: 217 55% 24%;
+  --color-orange: 217 91% 65%;
+  --color-orange-600: 217 91% 60%;
+  --color-orange-100: 217 55% 23%;
+  --color-clay: 215 20% 55%;
+  --color-muted: 217 30% 16%;
+  --color-muted-foreground: 215 20% 72%;
+  --color-destructive: 0 72% 70%;
+}
+
+/* Some legacy utility names are intentionally reused as both surfaces and text.
+   These contextual overrides keep the black theme legible without changing product markup. */
+.dark .bg-cream { background-color: hsl(0 0% 3%); }
+.dark .bg-paper { background-color: hsl(0 0% 7%); }
+.dark .bg-forest { background-color: hsl(217 91% 60%); }
+.dark .bg-forest-700 { background-color: hsl(0 0% 13%); }
+.dark .bg-forest-900 { background-color: hsl(0 0% 4%); }
+.dark .text-cream,
+.dark .text-paper,
+.dark .text-forest-900 { color: hsl(0 0% 96%); }
+.dark [class*="text-cream/"],
+.dark [class*="text-paper/"],
+.dark [class*="text-forest-900/"] { color: hsl(0 0% 96%); }
+.dark .text-forest { color: hsl(217 91% 72%); }
+.dark .text-lime { color: hsl(217 91% 76%); }
+.dark .border-cream\/15 { border-color: hsl(0 0% 100% / 0.15); }
+.dark .border-cream\/25 { border-color: hsl(0 0% 100% / 0.25); }
 
 html {
   -webkit-text-size-adjust: 100%;
@@ -14,32 +80,22 @@ html {
 }
 
 body {
-  background-color: #f6f1e5;
-  color: #12251b;
-  font-size: 17px;
-  line-height: 1.65;
+  background-color: hsl(var(--color-cream));
+  color: hsl(var(--color-ink));
+  font-size: 16px;
+  line-height: 1.55;
   overflow-wrap: break-word;
   font-feature-settings: "ss01" on, "cv11" on;
-}
-
-/* A quiet paper grain keeps flat areas from looking like a template. */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  transition: background-color 220ms ease, color 220ms ease;
 }
 
 ::selection {
-  background-color: #cde8be;
-  color: #0d2a1e;
+  background-color: hsl(var(--color-lime));
+  color: hsl(var(--color-forest-900));
 }
 
 :focus-visible {
-  outline: 3px solid #e4572e;
+  outline: 3px solid #2563eb;
   outline-offset: 3px;
   border-radius: 8px;
 }
@@ -48,10 +104,10 @@ h1,
 h2,
 h3,
 .display {
-  font-family: var(--font-display), Georgia, "Times New Roman", serif;
-  letter-spacing: -0.025em;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.045em;
   text-wrap: balance;
-  font-variation-settings: "SOFT" 30, "WONK" 0;
+  font-weight: 750;
 }
 
 p {
@@ -91,10 +147,10 @@ summary::-webkit-details-marker {
 
 .hero-grid {
   background-image:
-    linear-gradient(to right, rgba(21, 63, 44, 0.055) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(21, 63, 44, 0.055) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: linear-gradient(to bottom, black, transparent 78%);
+    radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.1), transparent 28%),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+  background-size: auto, 100% 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 68%);
 }
 
 .arch {
